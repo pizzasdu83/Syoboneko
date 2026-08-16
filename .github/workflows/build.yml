@@ -28,9 +28,13 @@ jobs:
       - name: Prepare Theos
         uses: Randomblock1/theos-action@v1
 
+      - name: Prepare build tools
+        run: brew install pv
+
       - name: Build package
         run: |
           rm -f packages/*
+          ./bundle.sh Resources/*.gif
           make package THEOS_PACKAGE_SCHEME=rootless FINALPACKAGE=1
 
       - name: Upload package
