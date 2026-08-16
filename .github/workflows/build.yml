@@ -26,12 +26,12 @@ jobs:
           key: ${{ runner.os }}-${{ env.upstream_heads }}
 
       - name: Prepare Theos
-        uses: Randomblock1/theos-action
+        uses: Randomblock1/theos-action@v1
 
       - name: Build package
         run: |
           rm -f packages/*
-          make package FINALPACKAGE=1
+          make package THEOS_PACKAGE_SCHEME=rootless FINALPACKAGE=1
 
       - name: Upload package
         uses: actions/upload-artifact@v7
