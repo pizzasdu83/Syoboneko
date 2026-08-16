@@ -64,9 +64,9 @@
 }
 
 - (instancetype)init {
-    self = [super initWithFrame:CGRectMake(100, 100, 32, 32)];
+    self = [super initWithFrame:CGRectMake(100, 100, 30, 36)];
     self.mouseLocation = CGPointMake(116, 100);
-    view = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)] retain];
+    view = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 36)] retain];
     view.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:view];
 
@@ -267,11 +267,11 @@
         }
         /*if (moveDx < 0 && x <= 0) {
         [self setStateTo:l_togi];
-        } else if (moveDx > 0 && x >= WindowWidth - 32) {
+        } else if (moveDx > 0 && x >= WindowWidth - 30) {
             [self setStateTo:r_togi];
         } else if (moveDy < 0 && y <= 0) {
             [self setStateTo:u_togi];
-        } else if (moveDy > 0 && y >= WindowHeight - 32) {
+        } else if (moveDy > 0 && y >= WindowHeight - 36) {
             [self setStateTo:d_togi];
         } else {*/
         [self setStateTo:jare];
