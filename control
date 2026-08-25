@@ -1,9 +1,9 @@
 Package: com.pixelomer.oneko
-Name: Oneko
+Name: Syoboneko
 Version: 1.0.0
 Architecture: iphoneos-arm
-Description: Oneko for iOS
-Maintainer: pixelomer
+Description: Oneko for iOS but with Syobon (/Shobon, aka. cat mario)
+Maintainer: SaaS
 Author: pixelomer
 Section: Tweaks
 Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 15.0)
