@@ -7,8 +7,10 @@
 
 @interface UIWindow(Private)
 - (UIInterfaceOrientation)interfaceOrientation;
+
 - (void)_rotateWindowToOrientation:(UIInterfaceOrientation)orientation
-    updateStatusBar:(BOOL)updateStatusBar duration:(CGFloat)duration
+    updateStatusBar:(BOOL)updateStatusBar
+    duration:(CGFloat)duration
     skipCallbacks:(BOOL)skipCallbacks;
 @end
 
@@ -22,101 +24,145 @@
 @end
 
 @implementation OnekoWindow
+
 - (BOOL)autorotates {
     return NO;
 }
+
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
     return NO;
 }
+
 @end
 
 @interface OnekoViewController : UIViewController
 @end
 
 @implementation OnekoViewController
+
 - (BOOL)shouldAutorotate {
     return NO;
 }
+
 @end
 
-//FIXME: There has to be a better way to do this
-static CGPoint TranslatePoint(CGPoint point, CGSize bounds,
-    UIInterfaceOrientation from, UIInterfaceOrientation to)
+// FIXME: There has to be a better way to do this
+static CGPoint TranslatePoint(CGPoint point,
+                              CGSize bounds,
+                              UIInterfaceOrientation from,
+                              UIInterfaceOrientation to)
 {
     CGPoint ret = point;
+
     const CGFloat origX = point.x;
     const CGFloat origY = point.y;
     const CGFloat mirroredX = bounds.width - origX;
     const CGFloat mirroredY = bounds.height - origY;
-    
+
     switch (from) {
-        case UIInterfaceOrientationPortraitUpsideDown: switch (to) {
-            case UIInterfaceOrientationPortraitUpsideDown:
-                // no change
-                break;
-            case UIInterfaceOrientationLandscapeRight:
-                ret = CGPointMake(mirroredY, origX);
-                break;
-            case UIInterfaceOrientationLandscapeLeft:
-                ret = CGPointMake(origY, mirroredX);
-                break;
-            case UIInterfaceOrientationPortrait:
-                ret = CGPointMake(mirroredX, mirroredY);
-            default:
-                break;
-        }
-        break;
-        case UIInterfaceOrientationLandscapeRight: switch (to) {
-            case UIInterfaceOrientationPortraitUpsideDown:
-                ret = CGPointMake(origY, mirroredX);
-                break;
-            case UIInterfaceOrientationLandscapeRight:
-                // no change
-                break;
-            case UIInterfaceOrientationLandscapeLeft:
-                ret = CGPointMake(mirroredX, mirroredY);
-                break;
-            case UIInterfaceOrientationPortrait:
-                ret = CGPointMake(mirroredY, origX);
-            default:
-                break;
-        }
-        break;
-        case UIInterfaceOrientationLandscapeLeft: switch (to) {
-            case UIInterfaceOrientationPortraitUpsideDown:
-                ret = CGPointMake(mirroredY, origX);
-                break;
-            case UIInterfaceOrientationLandscapeRight:
-                ret = CGPointMake(mirroredX, mirroredY);
-                break;
-            case UIInterfaceOrientationLandscapeLeft:
-                // no change
-                break;
-            case UIInterfaceOrientationPortrait:
-                ret = CGPointMake(origY, mirroredX);
-            default:
-                break;
-        }
-        break;
+
+        case UIInterfaceOrientationPortraitUpsideDown:
+
+            switch (to) {
+
+                case UIInterfaceOrientationPortraitUpsideDown:
+                    break;
+
+                case UIInterfaceOrientationLandscapeRight:
+                    ret = CGPointMake(mirroredY, origX);
+                    break;
+
+                case UIInterfaceOrientationLandscapeLeft:
+                    ret = CGPointMake(origY, mirroredX);
+                    break;
+
+                case UIInterfaceOrientationPortrait:
+                    ret = CGPointMake(mirroredX, mirroredY);
+                    break;
+
+                default:
+                    break;
+            }
+
+            break;
+
+        case UIInterfaceOrientationLandscapeRight:
+
+            switch (to) {
+
+                case UIInterfaceOrientationPortraitUpsideDown:
+                    ret = CGPointMake(origY, mirroredX);
+                    break;
+
+                case UIInterfaceOrientationLandscapeRight:
+                    break;
+
+                case UIInterfaceOrientationLandscapeLeft:
+                    ret = CGPointMake(mirroredX, mirroredY);
+                    break;
+
+                case UIInterfaceOrientationPortrait:
+                    ret = CGPointMake(mirroredY, origX);
+                    break;
+
+                default:
+                    break;
+            }
+
+            break;
+
+        case UIInterfaceOrientationLandscapeLeft:
+
+            switch (to) {
+
+                case UIInterfaceOrientationPortraitUpsideDown:
+                    ret = CGPointMake(mirroredY, origX);
+                    break;
+
+                case UIInterfaceOrientationLandscapeRight:
+                    ret = CGPointMake(mirroredX, mirroredY);
+                    break;
+
+                case UIInterfaceOrientationLandscapeLeft:
+                    break;
+
+                case UIInterfaceOrientationPortrait:
+                    ret = CGPointMake(origY, mirroredX);
+                    break;
+
+                default:
+                    break;
+            }
+
+            break;
+
         case UIInterfaceOrientationPortrait:
-        default: switch (to) {
-            case UIInterfaceOrientationPortraitUpsideDown:
-                ret = CGPointMake(mirroredX, mirroredY);
-                break;
-            case UIInterfaceOrientationLandscapeRight:
-                ret = CGPointMake(origY, mirroredX);
-                break;
-            case UIInterfaceOrientationLandscapeLeft:
-                ret = CGPointMake(mirroredY, origX);
-                break;
-            case UIInterfaceOrientationPortrait:
-                // no change
-                break;
-            default:
-                break;
-        }
-        break;
+        default:
+
+            switch (to) {
+
+                case UIInterfaceOrientationPortraitUpsideDown:
+                    ret = CGPointMake(mirroredX, mirroredY);
+                    break;
+
+                case UIInterfaceOrientationLandscapeRight:
+                    ret = CGPointMake(origY, mirroredX);
+                    break;
+
+                case UIInterfaceOrientationLandscapeLeft:
+                    ret = CGPointMake(mirroredY, origX);
+                    break;
+
+                case UIInterfaceOrientationPortrait:
+                    break;
+
+                default:
+                    break;
+            }
+
+            break;
     }
+
     return ret;
 }
 
@@ -130,23 +176,38 @@ static NSTimer *timer;
 
 %hook UITouchesEvent
 
--(void)_setHIDEvent:(id)event {
+- (void)_setHIDEvent:(id)event {
+
     %orig;
+
     NSSet<UITouch *> *touches;
+
     if (@available(iOS 11.0, *)) {
         touches = [(NSMutableSet *)[self valueForKey:@"_allTouchesMutable"] copy];
     } else {
         touches = (NSSet *)[self valueForKey:@"_allTouches"];
     }
+
     if (touches.count == 0) {
         return;
     }
+
     UITouch *touch = [touches anyObject];
+
     CGPoint point = [touch locationInView:nil];
+
     if ([[touch window] interfaceOrientation] == UIInterfaceOrientationPortrait) {
-        CGSize referenceBounds = [[UIScreen mainScreen] _referenceBounds].size;
-        CGPoint mouseLocation = TranslatePoint(point, referenceBounds,
-            UIInterfaceOrientationPortrait, [window interfaceOrientation]);
+
+        CGSize referenceBounds =
+            [[UIScreen mainScreen] _referenceBounds].size;
+
+        CGPoint mouseLocation = TranslatePoint(
+            point,
+            referenceBounds,
+            UIInterfaceOrientationPortrait,
+            [window interfaceOrientation]
+        );
+
         neko.mouseLocation = mouseLocation;
     }
 }
@@ -154,66 +215,111 @@ static NSTimer *timer;
 %end
 
 static void onekoTimerTick() {
-    SpringBoard *springboard = (SpringBoard *)[UIApplication sharedApplication];
+
+    SpringBoard *springboard =
+        (SpringBoard *)[UIApplication sharedApplication];
+
     if ([springboard isLocked]) {
         neko.hidden = YES;
         return;
     }
+
     neko.hidden = NO;
-    UIInterfaceOrientation orientation = [springboard activeInterfaceOrientation];
+
+    UIInterfaceOrientation orientation =
+        [springboard activeInterfaceOrientation];
+
     if ([window interfaceOrientation] != orientation) {
+
         CGSize vcSize = [viewController.view bounds].size;
-        UIInterfaceOrientation from = [window interfaceOrientation];
-        UIInterfaceOrientation to = orientation;
+
+        UIInterfaceOrientation from =
+            [window interfaceOrientation];
+
+        UIInterfaceOrientation to =
+            orientation;
+
         CGRect frame = neko.frame;
+
         frame.origin.x += frame.size.width / 2;
         frame.origin.y += frame.size.height / 2;
-        frame.origin = TranslatePoint(frame.origin, vcSize, from, to);
+
+        frame.origin = TranslatePoint(
+            frame.origin,
+            vcSize,
+            from,
+            to
+        );
+
         frame.origin.y -= frame.size.height / 2;
+
         neko.mouseLocation = frame.origin;
+
         frame.origin.x -= frame.size.width / 2;
+
         neko.frame = frame;
-        [window _rotateWindowToOrientation:orientation updateStatusBar:NO
-            duration:0 skipCallbacks:NO];
+
+        [window _rotateWindowToOrientation:
+            orientation
+            updateStatusBar:NO
+            duration:0
+            skipCallbacks:NO];
     }
+
     [neko handleTimer:timer];
 }
 
 %hook SpringBoard
 
 - (void)applicationDidFinishLaunching:(id)application {
+
     %orig;
 
-    window = [[OnekoWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    window = [[OnekoWindow alloc]
+        initWithFrame:UIScreen.mainScreen.bounds];
+
     if (@available(iOS 13.0, *)) {
-        window.windowScene = (id)[self connectedScenes].allObjects[0];
-    }
-    else {
+
+        window.windowScene =
+            (id)[self connectedScenes].allObjects[0];
+
+    } else {
+
         window.screen = [UIScreen mainScreen];
     }
 
     viewController = [OnekoViewController new];
 
     neko = [Oneko new];
+
     neko.userInteractionEnabled = NO;
+
     [viewController.view addSubview:neko];
-    
+
     window.rootViewController = viewController;
+
     window.userInteractionEnabled = YES;
     window.opaque = NO;
     window.hidden = NO;
+
     window.backgroundColor = [UIColor clearColor];
+
     window.windowLevel = CGFLOAT_MAX / 2.0;
+
     [window makeKeyAndVisible];
 
-    timer = [NSTimer
+    timer = [
+        NSTimer
         timerWithTimeInterval:0.125f
         repeats:YES
         block:^(NSTimer *timer) {
             onekoTimerTick();
         }
     ];
-    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+
+    [[NSRunLoop mainRunLoop]
+        addTimer:timer
+        forMode:NSRunLoopCommonModes];
 }
 
 %end
