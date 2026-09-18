@@ -4,17 +4,27 @@
 <dict>
 	<key>entry</key>
 	<dict>
-		<key>bundle</key>
-		<string>SyobonekoPrefs</string>
-
 		<key>cell</key>
-		<string>PSLinkCell</string>
-
-		<key>isController</key>
-		<true/>
+		<string>PSSwitchCell</string>
 
 		<key>label</key>
-		<string>Syoboneko</string>
+		<string>Cacher le chat</string>
+
+        <key>footerText</key>
+		<string>Every time you switch it on, an innocent kitten dies somewhere in the world.</string>
+
+
+		<key>key</key>
+		<string>HideNeko</string>
+
+		<key>default</key>
+		<false/>
+
+		<key>defaults</key>
+		<string>com.pixelomer.oneko</string>
+
+		<key>PostNotification</key>
+		<string>com.pixelomer.oneko/reload</string>
 	</dict>
 </dict>
 </plist>
