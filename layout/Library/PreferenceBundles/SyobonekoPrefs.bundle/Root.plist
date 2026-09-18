@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+	<key>title</key>
+	<string>Syoboneko</string>
+
+	<key>items</key>
+	<array>
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+
+			<key>footerText</key>
+			<string>Every time you switch it on, an innocent kitten dies somewhere in the world.</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+
+			<key>label</key>
+			<string>Kill the cat?</string>
+
+			<key>key</key>
+			<string>HideNeko</string>
+
+			<key>default</key>
+			<false/>
+
+			<key>defaults</key>
+			<string>com.pixelomer.oneko</string>
+
+			<key>PostNotification</key>
+			<string>com.pixelomer.oneko/reload</string>
+		</dict>
+
+	</array>
+
+</dict>
+</plist>
