@@ -13,6 +13,7 @@ TWEAK_NAME = Oneko
 
 Oneko_FILES = Oneko.m resources.m Tweak.xm
 Oneko_CFLAGS = -include macros.h -Wno-deprecated-declarations
+
 Tweak.xm_CFLAGS = -fobjc-arc
 resources.m_CFLAGS = -fobjc-arc
 
@@ -20,4 +21,7 @@ include $(THEOS_MAKE_PATH)/tweak.mk
 
 after-stage::
 	$(ECHO_NOTHING)mkdir -p $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences$(ECHO_END)
-	$(ECHO_NOTHING)cp Preferences/Syoboneko.plist $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences/Syoboneko.plist$(ECHO_END)
+	$(ECHO_NOTHING)cp layout/Library/PreferenceLoader/Preferences/Syoboneko.plist $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences/Syoboneko.plist$(ECHO_END)
+	$(ECHO_NOTHING)mkdir -p $(THEOS_STAGING_DIR)/Library/PreferenceBundles/SyobonekoPrefs.bundle$(ECHO_END)
+	$(ECHO_NOTHING)cp layout/Library/PreferenceBundles/SyobonekoPrefs.bundle/Info.plist $(THEOS_STAGING_DIR)/Library/PreferenceBundles/SyobonekoPrefs.bundle/Info.plist$(ECHO_END)
+	$(ECHO_NOTHING)cp layout/Library/PreferenceBundles/SyobonekoPrefs.bundle/Root.plist $(THEOS_STAGING_DIR)/Library/PreferenceBundles/SyobonekoPrefs.bundle/Root.plist$(ECHO_END)
