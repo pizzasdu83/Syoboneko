@@ -17,3 +17,7 @@ Tweak.xm_CFLAGS = -fobjc-arc
 resources.m_CFLAGS = -fobjc-arc
 
 include $(THEOS_MAKE_PATH)/tweak.mk
+
+after-stage::
+	$(ECHO_NOTHING)mkdir -p $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences$(ECHO_END)
+	$(ECHO_NOTHING)cp Preferences/Syoboneko.plist $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences/Syoboneko.plist$(ECHO_END)
