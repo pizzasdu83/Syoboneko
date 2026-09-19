@@ -186,27 +186,27 @@
 }
 
 - (void)playDeathSound {
-    NSArray<NSString *> *candidates = @[
-        @"/var/jb/Library/Application Support/SyobonekoResources.bundle/death.wav",
-        @"/Library/Application Support/SyobonekoResources.bundle/death.wav"
-    ];
+    NSData *wav = oneko_getResources()[@"death.wav"];
 
-    NSFileManager *fm = [NSFileManager defaultManager];
-    NSString *soundPath = nil;
-
-    for (NSString *path in candidates) {
-        if ([fm fileExistsAtPath:path]) {
-            soundPath = path;
-            break;
-        }
-    }
-
-    if (soundPath == nil) {
+    if (wav == nil) {
         AudioServicesPlaySystemSound(1007);
         return;
     }
 
-    NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
+    NSString *path = @"/var/mobile/Library/Caches/com.pixelomer.oneko-death.wav";
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+
+    if (![fm fileExistsAtPath:path] ||
+        [[fm attributesOfItemAtPath:path error:nil] fileSize] != wav.length) {
+
+        if (![wav writeToFile:path atomically:YES]) {
+            AudioServicesPlaySystemSound(1016);
+            return;
+        }
+    }
+
+    NSURL *soundURL = [NSURL fileURLWithPath:path];
 
     SystemSoundID soundID = 0;
 
@@ -217,7 +217,7 @@
         );
 
     if (status != kAudioServicesNoError) {
-        AudioServicesPlaySystemSound(1007);
+        AudioServicesPlaySystemSound(1013);
         return;
     }
 

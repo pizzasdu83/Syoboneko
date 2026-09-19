@@ -35,7 +35,7 @@ jobs:
       - name: Build package
         run: |
           rm -f packages/*
-          ./bundle.sh Resources/*.gif
+          ./bundle.sh Resources/*.gif Resources/death.wav
           make package THEOS_PACKAGE_SCHEME=rootless FINALPACKAGE=1
 
       - name: Upload package
