@@ -22,3 +22,6 @@ include $(THEOS_MAKE_PATH)/tweak.mk
 after-stage::
 	$(ECHO_NOTHING)mkdir -p $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences$(ECHO_END)
 	$(ECHO_NOTHING)cp layout/Library/PreferenceLoader/Preferences/Syoboneko.plist $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences/Syoboneko.plist$(ECHO_END)
+	$(ECHO_NOTHING)cp layout/Library/PreferenceLoader/Preferences/Icon.png $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences/Icon.png$(ECHO_END)
+	$(ECHO_NOTHING)cp layout/Library/PreferenceLoader/Preferences/Icon@x2.png $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences/Icon@x2.png$(ECHO_END)
+	$(ECHO_NOTHING)cp layout/Library/PreferenceLoader/Preferences/Icon@x3.png $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences/Icon@x3.png$(ECHO_END)
