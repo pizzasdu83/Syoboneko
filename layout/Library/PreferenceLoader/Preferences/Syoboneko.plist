@@ -8,7 +8,7 @@
 		<string>PSSwitchCell</string>
 
 		<key>label</key>
-		<string>Cacher le chat</string>
+		<string>Kill</string>
 
         <key>footerText</key>
 		<string>Every time you switch it on, an innocent kitten dies somewhere in the world.</string>
