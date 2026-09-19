@@ -19,6 +19,7 @@
 
     BOOL hiding;
     BOOL hiddenAtBottom;
+    float hideStep;
 }
 
 - (CGRect)cocoaFrame {
@@ -326,6 +327,8 @@
     if (shouldHide && !hiding) {
         hiding = YES;
 
+        hideStep = ([[UIScreen mainScreen] bounds].size.height + 36.0f) / 24.0f;
+
         [self playDeathSound];
     }
 
@@ -346,7 +349,7 @@
 
         [view setImage:[Oneko resourceNamed:@"down1.gif"]];
 
-        y -= 13.0f;
+        y -= hideStep;
 
         if (y <= -36.0f) {
             y = -36.0f;
