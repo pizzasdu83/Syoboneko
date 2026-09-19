@@ -181,14 +181,8 @@
 }
 
 - (BOOL)shouldHideNeko {
-    NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:
-        @"/var/mobile/Library/Preferences/com.pixelomer.oneko.plist"];
-
-    if (prefs[@"HideNeko"] == nil) {
-        return NO;
-    }
-
-    return [prefs[@"HideNeko"] boolValue];
+    NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"com.pixelomer.oneko"];
+    return [defaults boolForKey:@"HideNeko"];
 }
 
 - (void)calcDxDyForX:(float)x Y:(float)y
@@ -295,65 +289,31 @@
         hiding = YES;
     }
 
-    /*
-     * Le switch vient d'être désactivé.
-     */
+
     if (!shouldHide && hiding) {
         hiding = NO;
-
-        /*
-         * Si le chat était complètement caché, on le laisse
-         * repartir exactement de sa position actuelle.
-         */
-        if (hiddenAtBottom) {
-            hiddenAtBottom = NO;
-
-            /*
-             * On force un état de déplacement pour que le chat
-             * puisse immédiatement repartir vers le doigt.
-             */
-            [self calcDxDyForX:[self cocoaFrame].origin.x
-                              Y:[self cocoaFrame].origin.y];
-
-            [self NekoDirection];
-        }
+        hiddenAtBottom = NO;
     }
 
     float x = [self cocoaFrame].origin.x;
     float y = [self cocoaFrame].origin.y;
 
-    /*
-     * ==========================================
-     * MODE CACHE : DESCENTE VERS LE BAS
-     * ==========================================
-     */
+
     if (hiding) {
 
-        /*
-         * Une fois complètement hors écran, on ne fait absolument
-         * plus rien : la position est conservée.
-         */
+
         if (hiddenAtBottom) {
             [view setImage:[Oneko resourceNamed:@"down1.gif"]];
             return;
         }
 
-        /*
-         * Toujours down1.gif pendant toute la descente.
-         */
+
         [view setImage:[Oneko resourceNamed:@"down1.gif"]];
 
-        /*
-         * Dans les coordonnées Cocoa utilisées par Oneko,
-         * diminuer Y fait descendre le chat à l'écran.
-         */
+
         y -= 13.0f;
 
-        /*
-         * Le chat mesure 36 px de haut.
-         * Quand son bord supérieur est passé sous 0,
-         * il est complètement invisible.
-         */
+
         if (y <= -36.0f) {
             y = -36.0f;
             hiddenAtBottom = YES;
@@ -366,11 +326,7 @@
         return;
     }
 
-    /*
-     * ==========================================
-     * MODE NORMAL
-     * ==========================================
-     */
+
 
     [self calcDxDyForX:x Y:y];
 
