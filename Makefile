@@ -13,12 +13,20 @@ TWEAK_NAME = Oneko
 
 Oneko_FILES = Oneko.m resources.m Tweak.xm
 Oneko_CFLAGS = -include macros.h -Wno-deprecated-declarations
+Oneko_FRAMEWORKS = UIKit AudioToolbox
 
 Tweak.xm_CFLAGS = -fobjc-arc
 resources.m_CFLAGS = -fobjc-arc
 
-Oneko_RESOURCE_FILES = Resources/death.wav
 include $(THEOS_MAKE_PATH)/tweak.mk
+
+BUNDLE_NAME = SyobonekoResources
+
+SyobonekoResources_INSTALL_PATH = /Library/Application\ Support/
+
+SyobonekoResources_RESOURCE_FILES = Resources/death.wav
+
+include $(THEOS_MAKE_PATH)/bundle.mk
 
 after-stage::
 	$(ECHO_NOTHING)mkdir -p $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences$(ECHO_END)

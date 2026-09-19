@@ -17,32 +17,8 @@
     id myTimer;
     UIImageView *view;
 
-    // YES quand le switch "Cacher le chat" est activé.
     BOOL hiding;
-
-    // YES quand le chat est arrivé complètement hors écran.
     BOOL hiddenAtBottom;
-	
-	- (void)playDeathSound {
-		NSString *path = [[NSBundle bundleForClass:[self class]]
-			pathForResource:@"death"
-			ofType:@"wav"];
-
-		if (path == nil) {
-			return;
-		}
-
-		NSURL *url = [NSURL fileURLWithPath:path];
-
-		SystemSoundID soundID = 0;
-
-		OSStatus status =
-			AudioServicesCreateSystemSoundID((__bridge CFURLRef)url, &soundID);
-
-		if (status == kAudioServicesNoError) {
-			AudioServicesPlaySystemSound(soundID);
-		}
-	}
 }
 
 - (CGRect)cocoaFrame {
@@ -203,8 +179,38 @@
 }
 
 - (BOOL)shouldHideNeko {
-    NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"com.pixelomer.oneko"];
+    NSUserDefaults *defaults =
+        [[NSUserDefaults alloc] initWithSuiteName:@"com.pixelomer.oneko"];
+
     return [defaults boolForKey:@"HideNeko"];
+}
+
+- (void)playDeathSound {
+    NSString *bundlePath =
+        @"/Library/Application Support/SyobonekoResources.bundle";
+
+    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
+
+    NSString *soundPath =
+        [bundle pathForResource:@"death" ofType:@"wav"];
+
+    if (soundPath == nil) {
+        return;
+    }
+
+    NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
+
+    SystemSoundID soundID = 0;
+
+    OSStatus status =
+        AudioServicesCreateSystemSoundID(
+            (__bridge CFURLRef)soundURL,
+            &soundID
+        );
+
+    if (status == kAudioServicesNoError) {
+        AudioServicesPlaySystemSound(soundID);
+    }
 }
 
 - (void)calcDxDyForX:(float)x Y:(float)y
@@ -305,10 +311,10 @@
     BOOL shouldHide = [self shouldHideNeko];
 
     if (shouldHide && !hiding) {
-		hiding = YES;
-		[self playDeathSound];
-	}
+        hiding = YES;
 
+        [self playDeathSound];
+    }
 
     if (!shouldHide && hiding) {
         hiding = NO;
@@ -318,21 +324,16 @@
     float x = [self cocoaFrame].origin.x;
     float y = [self cocoaFrame].origin.y;
 
-
     if (hiding) {
-
 
         if (hiddenAtBottom) {
             [view setImage:[Oneko resourceNamed:@"down1.gif"]];
             return;
         }
 
-
         [view setImage:[Oneko resourceNamed:@"down1.gif"]];
 
-
         y -= 13.0f;
-
 
         if (y <= -36.0f) {
             y = -36.0f;
@@ -345,8 +346,6 @@
 
         return;
     }
-
-
 
     [self calcDxDyForX:x Y:y];
 
