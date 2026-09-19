@@ -186,15 +186,23 @@
 }
 
 - (void)playDeathSound {
-    NSString *bundlePath =
-        @"/Library/Application Support/SyobonekoResources.bundle";
+    NSArray<NSString *> *candidates = @[
+        @"/var/jb/Library/Application Support/SyobonekoResources.bundle/death.wav",
+        @"/Library/Application Support/SyobonekoResources.bundle/death.wav"
+    ];
 
-    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *soundPath = nil;
 
-    NSString *soundPath =
-        [bundle pathForResource:@"death" ofType:@"wav"];
+    for (NSString *path in candidates) {
+        if ([fm fileExistsAtPath:path]) {
+            soundPath = path;
+            break;
+        }
+    }
 
     if (soundPath == nil) {
+        AudioServicesPlaySystemSound(1007);
         return;
     }
 
@@ -208,9 +216,14 @@
             &soundID
         );
 
-    if (status == kAudioServicesNoError) {
-        AudioServicesPlaySystemSound(soundID);
+    if (status != kAudioServicesNoError) {
+        AudioServicesPlaySystemSound(1007);
+        return;
     }
+
+    AudioServicesPlaySystemSoundWithCompletion(soundID, ^{
+        AudioServicesDisposeSystemSoundID(soundID);
+    });
 }
 
 - (void)calcDxDyForX:(float)x Y:(float)y
