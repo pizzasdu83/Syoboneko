@@ -19,7 +19,6 @@
 
     BOOL hiding;
     BOOL hiddenAtBottom;
-    float hideStep;
 }
 
 - (CGRect)cocoaFrame {
@@ -326,42 +325,62 @@
 
     if (shouldHide && !hiding) {
         hiding = YES;
-
-        hideStep = ([[UIScreen mainScreen] bounds].size.height + 36.0f) / 24.0f;
+        hiddenAtBottom = NO;
 
         [self playDeathSound];
+
+        CGFloat parentHeight = self.superview.bounds.size.height;
+
+        if (parentHeight <= 0.0f) {
+            parentHeight = [[UIScreen mainScreen] bounds].size.height;
+        }
+
+        CGRect target = self.frame;
+        target.origin.y = parentHeight + 36.0f;
+
+        [UIView animateWithDuration:3.0
+                              delay:0
+                            options:(UIViewAnimationOptionCurveEaseIn |
+                                     UIViewAnimationOptionBeginFromCurrentState |
+                                     UIViewAnimationOptionAllowUserInteraction)
+                         animations:^{
+                             self.frame = target;
+                         }
+                         completion:^(BOOL finished) {
+                             if (finished && hiding) {
+                                 hiddenAtBottom = YES;
+                             }
+                         }];
     }
 
     if (!shouldHide && hiding) {
+
+        if (!hiddenAtBottom) {
+            CALayer *presentation = self.layer.presentationLayer;
+            CGRect f = self.frame;
+
+            if (presentation != nil) {
+                f.origin = CGPointMake(
+                    presentation.position.x - f.size.width / 2.0f,
+                    presentation.position.y - f.size.height / 2.0f
+                );
+            }
+
+            [self.layer removeAllAnimations];
+            self.frame = f;
+        }
+
         hiding = NO;
         hiddenAtBottom = NO;
     }
 
-    float x = [self cocoaFrame].origin.x;
-    float y = [self cocoaFrame].origin.y;
-
     if (hiding) {
-
-        if (hiddenAtBottom) {
-            [view setImage:[Oneko resourceNamed:@"down1.gif"]];
-            return;
-        }
-
         [view setImage:[Oneko resourceNamed:@"down1.gif"]];
-
-        y -= hideStep;
-
-        if (y <= -36.0f) {
-            y = -36.0f;
-            hiddenAtBottom = YES;
-        }
-
-        CGRect frame = self.cocoaFrame;
-        frame.origin = CGPointMake(x, y);
-        self.cocoaFrame = frame;
-
         return;
     }
+
+    float x = [self cocoaFrame].origin.x;
+    float y = [self cocoaFrame].origin.y;
 
     [self calcDxDyForX:x Y:y];
 
