@@ -1,5 +1,6 @@
 #import "Oneko.h"
 #import "resources.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface UIView(Private)
 - (UIViewController *)_viewControllerForAncestor;
@@ -21,6 +22,27 @@
 
     // YES quand le chat est arrivé complètement hors écran.
     BOOL hiddenAtBottom;
+	
+	- (void)playDeathSound {
+		NSString *path = [[NSBundle bundleForClass:[self class]]
+			pathForResource:@"death"
+			ofType:@"wav"];
+
+		if (path == nil) {
+			return;
+		}
+
+		NSURL *url = [NSURL fileURLWithPath:path];
+
+		SystemSoundID soundID = 0;
+
+		OSStatus status =
+			AudioServicesCreateSystemSoundID((__bridge CFURLRef)url, &soundID);
+
+		if (status == kAudioServicesNoError) {
+			AudioServicesPlaySystemSound(soundID);
+		}
+	}
 }
 
 - (CGRect)cocoaFrame {
@@ -282,12 +304,10 @@
 {
     BOOL shouldHide = [self shouldHideNeko];
 
-    /*
-     * Le switch vient d'être activé.
-     */
     if (shouldHide && !hiding) {
-        hiding = YES;
-    }
+		hiding = YES;
+		[self playDeathSound];
+	}
 
 
     if (!shouldHide && hiding) {

@@ -17,6 +17,7 @@ Oneko_CFLAGS = -include macros.h -Wno-deprecated-declarations
 Tweak.xm_CFLAGS = -fobjc-arc
 resources.m_CFLAGS = -fobjc-arc
 
+Oneko_RESOURCE_FILES = Resources/death.wav
 include $(THEOS_MAKE_PATH)/tweak.mk
 
 after-stage::
