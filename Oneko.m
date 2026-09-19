@@ -336,9 +336,9 @@
         }
 
         CGRect target = self.frame;
-        target.origin.y = parentHeight + 36.0f;
+        target.origin.y = parentHeight + [self cocoaFrame].origin.y + 36.0f;
 
-        [UIView animateWithDuration:3.0
+        [UIView animateWithDuration:2.0
                               delay:0
                             options:(UIViewAnimationOptionCurveEaseIn |
                                      UIViewAnimationOptionBeginFromCurrentState |
