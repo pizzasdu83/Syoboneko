@@ -13,6 +13,8 @@
         <key>footerText</key>
 		<string>Every time you switch it on, an innocent kitten dies somewhere in the world.</string>
 
+		<key>icon</key>
+		<string>Icon.png</string>
 
 		<key>key</key>
 		<string>HideNeko</string>
